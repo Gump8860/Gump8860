@@ -1,52 +1,48 @@
-
-         <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>祝你生日快乐！</title>
     <style>
-        /* 全局样式 - 已修改：移除overflow: hidden 允许页面滚动 */
+        /* 全局样式 */
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #f8e8ff 0%, #e6f7ff 100%);
             margin: 0;
-            padding: 20px; /* 添加内边距 */
+            padding: 20px;
             display: flex;
             justify-content: center;
-            min-height: 100vh; /* 修改为min-height允许内容扩展 */
+            align-items: center;
+            min-height: 100vh;
             position: relative;
             color: #333;
-            overflow-x: hidden; /* 只禁止水平滚动 */
+            overflow-x: hidden;
+            cursor: pointer; /* 提示用户可点击 */
         }
-        /* 装饰性彩带 */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 200px;
-            height: 20px;
-            background-color: #ff6b6b;
-            border-radius: 10px;
-            animation: float 3s ease-in-out infinite;
-            top: 10%;
-            left: 10%;
+        
+        /* 点击提示（替换伪元素为真实DOM，支持JS控制） */
+        #click-tip {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 107, 107, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
-        body::after {
-            content: '';
-            position: absolute;
-            width: 200px;
-            height: 20px;
-            background-color: #4ecef7;
-            border-radius: 10px;
-            animation: float 4s ease-in-out infinite;
-            bottom: 20%;
-            right: 10%;
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
         }
-        /* 彩带动画 */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
+        
         /* 主容器卡片 */
         .container {
             width: 90%;
@@ -60,16 +56,18 @@
             z-index: 1;
             animation: popIn 0.8s ease forwards;
         }
-        /* 卡片弹出动画 */
+        
         @keyframes popIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+        
         h1 {
             color: #ff6b6b;
             margin-bottom: 20px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
+        
         .message {
             font-size: 18px;
             line-height: 1.6;
@@ -80,84 +78,98 @@
             border-radius: 10px;
             border-left: 4px solid #ff6b6b;
         }
-        /* 图片画廊 */
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        .gallery img {
-            width: 100%;
-            max-width: 180px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
+        
         /* 音乐播放器控件 */
         .music-player {
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
+        
         #play-pause-btn {
             background-color: #ff6b6b;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 15px 30px;
             border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            transition: background-color 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
+        
         #play-pause-btn:hover {
             background-color: #ff4f4f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
+        
+        #play-pause-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         #music-title {
             font-style: italic;
             color: #666;
+            font-size: 16px;
+        }
+        
+        .music-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <!-- 点击提示：真实DOM元素，替代伪元素 -->
+    <div id="click-tip">点击任意位置播放音乐</div>
+    
     <div class="container">
         <h1>🎂 生日快乐！ 🎂</h1>
         
         <div class="message">
-           生日快乐哇蹦蹦！
+            生日快乐哇蹦蹦！
   今天可是个特别的日子，在这里小甘祝蹦蹦在新的一岁里，一切顺遂，烦恼消散，每天都开开心心，快快乐乐的！知道蹦蹦最近遇到好多糟心事，被弄脏了衣服，也遇到尴尬的事情，不必为打翻的蛋糕哭泣，因为这些事情塑造一位更加坚韧的蹦蹦不是嘛？蹦蹦曾说过讨厌疲惫的自己，每天累累的困困的，但是也很充实诶！小甘觉得蹦蹦超级棒的！也很佩服蹦蹦，能自己兼职，买自己喜欢吃的，做自己喜欢做的！很厉害喔，蹦蹦不需要去刻意去聊天，不喜欢聊天就不聊，没有什么大不了的。因为有得也有失，所以兼职也难免没啥时间，旅游就交给未来的蹦蹦吧！总得给她分配点任务不是？要不然蹦蹦可都累坏了，希望蹦蹦不要焦虑啦！
   不知道蹦蹦的目标在哪里，也不太了解蹦蹦的现状，但是如果有假期的话就好好安排放松一下喽，提前祝蹦蹦学考顺利，金榜题名，取得自己心仪的成绩，有空再玩玩想玩的游戏，觉得累了，吃点蹦蹦爱吃的火鸡面，或者吃一顿火锅啥的，觉得不开心🙁了就点杯奶茶喝喝，虽然暂时不能养边牧和小猫咪，但愿你将来能拥有属于自己的树屋和陪伴，去所有你想去的地方，看遍世间风景，也怀念和蹦蹦一起在光遇里度过的时光，虽然短暂，小甘很珍惜，希望蹦蹦以后也能像游戏里飞翔那样自由快乐，即使偶尔遇到风雨，也能轻松划过，迎来彩虹。别忘了，我们光之子本身就自带光芒。
   最后希望蹦蹦一直美美哒
         </div>
 
-        <div class="gallery">
-            <!-- 已修改：使用你实际的文件名 -->
-            < img src="1.png" alt="美好的回忆">
-            < img src="2.png" alt="我们的瞬间">
-            < img src="5.jpg" alt="生日祝福">
-            < img src="6.jpg" alt="快乐时光">
-            < img src="7.jpg" alt="特别时刻">
-        </div>
-
         <div class="music-player">
             <button id="play-pause-btn">播放音乐</button>
-            <span id="music-title">梁静茹 - 勇气</span>
+            <div class="music-info">
+                <span id="music-title">梁静茹 - 勇气</span>
+                <div class="loading" id="loading"></div>
+            </div>
         </div>
     </div>
 
-    <!-- 背景音乐 - 已修改：确保文件名一致 -->
-    <audio id="bgm" loop>
-        <source src="勇气.mp3" type="audio/mpeg">
+    <!-- 修复：使用公开可访问的音频CDN（已测试跨域可用） -->
+    <audio id="bgm" preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/wangding/cdn@master/audio/liangjingru-yongqi.mp3" type="audio/mpeg">
         您的浏览器不支持音频元素。
     </audio>
 
@@ -165,24 +177,80 @@
         document.addEventListener('DOMContentLoaded', function() {
             const bgm = document.getElementById('bgm');
             const playPauseBtn = document.getElementById('play-pause-btn');
-            
+            const loading = document.getElementById('loading');
+            const body = document.body;
+            const clickTip = document.getElementById('click-tip'); // 获取提示元素
             let isPlaying = false;
+            let hasInteracted = false;
 
+            // 预加载音乐
+            bgm.load();
+            
+            // 优化：加载状态同步按钮文字
+            function toggleLoading(show) {
+                loading.style.display = show ? 'block' : 'none';
+                playPauseBtn.disabled = show;
+                // 加载时显示“加载中”，否则恢复播放/暂停文字
+                playPauseBtn.textContent = show ? '加载中...' : (isPlaying ? '暂停音乐' : '播放音乐');
+            }
+
+            // 点击页面任意位置：触发首次交互（隐藏提示+播放音乐）
+            body.addEventListener('click', function() {
+                if (!hasInteracted) {
+                    hasInteracted = true;
+                    body.style.cursor = 'default';
+                    clickTip.style.display = 'none'; // 隐藏提示（修复伪元素问题）
+                    
+                    toggleLoading(true);
+                    // 播放音乐（兼容浏览器交互限制）
+                    bgm.play().then(() => {
+                        isPlaying = true;
+                        toggleLoading(false);
+                    }).catch(error => {
+                        console.log('需手动点击按钮播放:', error);
+                        toggleLoading(false);
+                        // 提示用户点击按钮
+                        playPauseBtn.style.animation = 'pulse 1s infinite';
+                        setTimeout(() => playPauseBtn.style.animation = '', 3000);
+                    });
+                }
+            });
+
+            // 按钮控制：删除stopPropagation，避免交互冲突
             playPauseBtn.addEventListener('click', function() {
                 if (isPlaying) {
                     bgm.pause();
+                    isPlaying = false;
                     playPauseBtn.textContent = '播放音乐';
                 } else {
-                    bgm.play().catch(function(error) {
-                        console.log('播放失败，需要用户交互:', error);
+                    toggleLoading(true);
+                    bgm.play().then(() => {
+                        isPlaying = true;
+                        toggleLoading(false);
+                    }).catch(error => {
+                        console.log('播放失败:', error);
+                        toggleLoading(false);
+                        alert('音乐加载失败，请刷新页面重试~');
                     });
-                    playPauseBtn.textContent = '暂停音乐';
                 }
-                isPlaying = !isPlaying;
             });
 
-            bgm.volume = 0.7;
+            // 音乐结束后重置状态
+            bgm.addEventListener('ended', function() {
+                isPlaying = false;
+                playPauseBtn.textContent = '播放音乐';
+            });
+
+            // 处理音乐加载错误
+            bgm.addEventListener('error', function() {
+                toggleLoading(false);
+                playPauseBtn.textContent = '加载失败';
+                playPauseBtn.disabled = true;
+            });
+
+            // 设置音量（避免音量过大）
+            bgm.volume = 0.6;
         });
     </script>
 </body>
-</html>     
+</html>
