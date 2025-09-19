@@ -46,7 +46,7 @@
         /* 主容器卡片 */
         .container {
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -77,6 +77,55 @@
             padding: 20px;
             border-radius: 10px;
             border-left: 4px solid #ff6b6b;
+        }
+        
+        /* 图片画廊 */
+        .gallery {
+            margin: 30px 0;
+        }
+        
+        .gallery h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 180px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
         }
         
         /* 音乐播放器控件 */
@@ -152,10 +201,46 @@
         <h1>🎂 生日快乐！ 🎂</h1>
         
         <div class="message">
-            生日快乐哇蹦蹦！
-  今天可是个特别的日子，在这里小甘祝蹦蹦在新的一岁里，一切顺遂，烦恼消散，每天都开开心心，快快乐乐的！知道蹦蹦最近遇到好多糟心事，被弄脏了衣服，也遇到尴尬的事情，不必为打翻的蛋糕哭泣，因为这些事情塑造一位更加坚韧的蹦蹦不是嘛？蹦蹦曾说过讨厌疲惫的自己，每天累累的困困的，但是也很充实诶！小甘觉得蹦蹦超级棒的！也很佩服蹦蹦，能自己兼职，买自己喜欢吃的，做自己喜欢做的！很厉害喔，蹦蹦不需要去刻意去聊天，不喜欢聊天就不聊，没有什么大不了的。因为有得也有失，所以兼职也难免没啥时间，旅游就交给未来的蹦蹦吧！总得给她分配点任务不是？要不然蹦蹦可都累坏了，希望蹦蹦不要焦虑啦！
-  不知道蹦蹦的目标在哪里，也不太了解蹦蹦的现状，但是如果有假期的话就好好安排放松一下喽，提前祝蹦蹦学考顺利，金榜题名，取得自己心仪的成绩，有空再玩玩想玩的游戏，觉得累了，吃点蹦蹦爱吃的火鸡面，或者吃一顿火锅啥的，觉得不开心🙁了就点杯奶茶喝喝，虽然暂时不能养边牧和小猫咪，但愿你将来能拥有属于自己的树屋和陪伴，去所有你想去的地方，看遍世间风景，也怀念和蹦蹦一起在光遇里度过的时光，虽然短暂，小甘很珍惜，希望蹦蹦以后也能像游戏里飞翔那样自由快乐，即使偶尔遇到风雨，也能轻松划过，迎来彩虹。别忘了，我们光之子本身就自带光芒。
-  最后希望蹦蹦一直美美哒
+            生日快乐哇蹦蹦！<br><br>
+            今天可是个特别的日子，在这里小甘祝蹦蹦在新的一岁里，一切顺遂，烦恼消散，每天都开开心心，快快乐乐的！知道蹦蹦最近遇到好多糟心事，被弄脏了衣服，也遇到尴尬的事情，不必为打翻的蛋糕哭泣，因为这些事情塑造一位更加坚韧的蹦蹦不是嘛？<br><br>
+            蹦蹦曾说过讨厌疲惫的自己，每天累累的困困的，但是也很充实诶！小甘觉得蹦蹦超级棒的！也很佩服蹦蹦，能自己兼职，买自己喜欢吃的，做自己喜欢做的！很厉害喔，蹦蹦不需要去刻意去聊天，不喜欢聊天就不聊，没有什么大不了的。因为有得也有失，所以兼职也难免没啥时间，旅游就交给未来的蹦蹦吧！总得给她分配点任务不是？要不然蹦蹦可都累坏了，希望蹦蹦不要焦虑啦！<br><br>
+            不知道蹦蹦的目标在哪里，也不太了解蹦蹦的现状，但是如果有假期的话就好好安排放松一下喽，提前祝蹦蹦学考顺利，金榜题名，取得自己心仪的成绩，有空再玩玩想玩的游戏，觉得累了，吃点蹦蹦爱吃的火鸡面，或者吃一顿火锅啥的，觉得不开心🙁了就点杯奶茶喝喝，虽然暂时不能养边牧和小猫咪，但愿你将来能拥有属于自己的树屋和陪伴，去所有你想去的地方，看遍世间风景，也怀念和蹦蹦一起在光遇里度过的时光，虽然短暂，小甘很珍惜，希望蹦蹦以后也能像游戏里飞翔那样自由快乐，即使偶尔遇到风雨，也能轻松划过，迎来彩虹。别忘了，我们光之子本身就自带光芒。<br><br>
+            最后希望蹦蹦一直美美哒
+        </div>
+
+        <!-- 图片画廊 -->
+        <div class="gallery">
+            <h2>📸 精彩瞬间与美好回忆 📸</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="/Gump8860/1.png" alt="美好回忆">
+                    <div class="gallery-caption">美好时光</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/2.png" alt="温馨时刻">
+                    <div class="gallery-caption">温馨时刻</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/3.png" alt="欢乐瞬间">
+                    <div class="gallery-caption">欢乐瞬间</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/4.png" alt="甜蜜记忆">
+                    <div class="gallery-caption">甜蜜记忆</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/5.jpg" alt="可爱小动物">
+                    <div class="gallery-caption">可爱伙伴</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/6.jpg" alt="特别时刻">
+                    <div class="gallery-caption">特别时刻</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/Gump8860/7.jpg" alt="生日祝福">
+                    <div class="gallery-caption">生日祝福</div>
+                </div>
+            </div>
         </div>
 
         <div class="music-player">
@@ -167,9 +252,9 @@
         </div>
     </div>
 
-    <!-- 只使用本地音乐文件 -->
+    <!-- 背景音乐 -->
     <audio id="bgm" preload="auto">
-    <source src="/Gump8860/勇气.mp3" type="audio/mpeg">
+        <source src="/Gump8860/勇气.mp3" type="audio/mpeg">
         您的浏览器不支持音频元素。
     </audio>
 
@@ -227,7 +312,7 @@
                     }).catch(error => {
                         console.log('播放失败:', error);
                         toggleLoading(false);
-                        alert('音乐加载失败，请确保"勇气.mp3"文件存在并刷新页面重试~');
+                        alert('音乐加载失败，请确保音乐文件存在并刷新页面重试~');
                     });
                 }
             });
@@ -252,6 +337,3 @@
     </script>
 </body>
 </html>
-
-
-
